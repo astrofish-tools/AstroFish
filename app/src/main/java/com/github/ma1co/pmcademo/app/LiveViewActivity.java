@@ -173,7 +173,7 @@ public class LiveViewActivity extends BaseActivity implements SurfaceHolder.Call
                             previewView.requestLayout();
                         }
                         photoIso = m.getISOSensitivity(); isoValues = m.getSupportedISOSensitivities();
-                        boostIso = nearestIso(Math.max(12800, photoIso));
+                        boostIso = LiveViewValues.highestIso(isoValues, photoIso);
                         p.setFocusMode(CameraEx.ParametersModifier.FOCUS_MODE_MANUAL);
                         p.setSceneMode(CameraEx.ParametersModifier.SCENE_MODE_MANUAL_EXPOSURE);
                         m.setDriveMode(CameraEx.ParametersModifier.DRIVE_MODE_SINGLE);
@@ -186,6 +186,19 @@ public class LiveViewActivity extends BaseActivity implements SurfaceHolder.Call
                         } catch (Throwable unavailable) { Logger.info("Slow live view unavailable: " + unavailable); }
                         try { originalPreviewMode = m.getShootingPreviewMode(); }
                         catch (Throwable unavailable) { originalPreviewMode = null; }
+                        try {
+                            String exposurePreview = CameraEx.ParametersModifier.SHOOTING_PREVIEW_MODE_IRIS_SS_ISO;
+                            m.setShootingPreviewMode(exposurePreview);
+                            camera.getNormalCamera().setParameters(p);
+                            CameraEx.ParametersModifier exposureCheck = camera.createParametersModifier(
+                                    camera.getNormalCamera().getParameters());
+                            if (!exposurePreview.equals(exposureCheck.getShootingPreviewMode()))
+                                throw new IllegalStateException("Exposure preview was not accepted");
+                            originalPreviewMode = exposurePreview;
+                            Logger.info("Normal exposure preview enabled: " + exposurePreview);
+                        } catch (Throwable unavailable) {
+                            Logger.info("Normal exposure preview unavailable: " + unavailable);
+                        }
                         try {
                             nativeHistogramSupported = m.isSupportedPreviewAnalize();
                             if (nativeHistogramSupported) camera.setPreviewAnalizeListener(nativeHistogramListener);
@@ -295,21 +308,26 @@ public class LiveViewActivity extends BaseActivity implements SurfaceHolder.Call
                 }
             }
             p = camera.getNormalCamera().getParameters(); m = camera.createParametersModifier(p);
-            // High ISO is a fallback only. Capture always restores photoIso first.
-            if (!slowSupported) {
-                m.setISOSensitivity(boostIso);
-                isoApplied = true;
-            }
-            List modes = null;
-            try { modes = m.getSupportedShootingPreviewModes(); } catch (Throwable unavailable) {}
-            String mode = slowSupported ? "off" : "iris_ss_iso";
-            if (originalPreviewMode != null && modes != null && modes.contains(mode)) {
+            // Older bodies can accept slow live view without producing enough visible
+            // gain. Add the strongest supported temporary ISO in every Star View path.
+            boostIso = LiveViewValues.highestIso(m.getSupportedISOSensitivities(), photoIso);
+            m.setISOSensitivity(boostIso);
+            isoApplied = true;
+            String mode = CameraEx.ParametersModifier.SHOOTING_PREVIEW_MODE_IRIS_SS_ISO;
+            if (originalPreviewMode != null) try {
                 m.setShootingPreviewMode(mode); previewModeApplied = true;
-            }
+            } catch (Throwable unavailable) { Logger.info("Star exposure preview unavailable: " + unavailable); }
             checkpointEnhancement();
             camera.getNormalCamera().setParameters(p);
+            CameraEx.ParametersModifier check = camera.createParametersModifier(
+                    camera.getNormalCamera().getParameters());
+            if (check.getISOSensitivity() != boostIso)
+                throw new IllegalStateException("Star ISO was not accepted");
+            if (previewModeApplied && !mode.equals(check.getShootingPreviewMode()))
+                throw new IllegalStateException("Star preview mode was not accepted");
             enhanced = true;
-            Logger.info("Star enabled: " + (slowSupported ? "slow" : "ISO="+boostIso) + "; photoISO="+photoIso);
+            Logger.info("Star enabled: slow=" + slowApplied + "; ISO=" + boostIso
+                    + "; preview=" + check.getShootingPreviewMode() + "; photoISO=" + photoIso);
             render("STAR VIEW");
         } catch (Throwable error) { restoreEnhancement(); fail("Star view", error); }
     }

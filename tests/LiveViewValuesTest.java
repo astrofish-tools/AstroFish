@@ -17,6 +17,9 @@ public class LiveViewValuesTest {
         expect(LiveViewValues.stepIso(values, 0, 1), 100);
         expect(LiveViewValues.stepIso(null, 1600, 1), 1600);
         expect(LiveViewValues.nearestIso(Arrays.asList("bad", null, 800), 1600, 12800), 800);
-        System.out.println("PASS: 10 capability-list edge cases");
+        expect(LiveViewValues.highestIso(values, 400), 12800);
+        expect(LiveViewValues.highestIso(Arrays.asList("bad", null, 25600), 800), 25600);
+        expect(LiveViewValues.highestIso(null, 1600), 1600);
+        System.out.println("PASS: 13 capability-list edge cases");
     }
 }

@@ -192,6 +192,18 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
             } catch (Throwable driveError) {
                 Logger.error("Drive mode setup warning: " + driveError.toString());
             }
+            try {
+                String exposurePreview = CameraEx.ParametersModifier.SHOOTING_PREVIEW_MODE_IRIS_SS_ISO;
+                openedModifier.setShootingPreviewMode(exposurePreview);
+                openedCamera.getNormalCamera().setParameters(openedParameters);
+                CameraEx.ParametersModifier exposureCheck = openedCamera.createParametersModifier(
+                        openedCamera.getNormalCamera().getParameters());
+                if (!exposurePreview.equals(exposureCheck.getShootingPreviewMode()))
+                    throw new IllegalStateException("Exposure preview was not accepted");
+                Logger.info("Timed BULB normal exposure preview enabled: " + exposurePreview);
+            } catch (Throwable previewError) {
+                Logger.info("Timed BULB normal exposure preview unavailable: " + previewError);
+            }
             if (!activityActive) {
                 openedCamera.release();
                 return;
@@ -516,7 +528,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         try {
             Camera.Parameters p = camera.getNormalCamera().getParameters();
             CameraEx.ParametersModifier m = camera.createParametersModifier(p);
-            starBoostIso = LiveViewValues.nearestIso(m.getSupportedISOSensitivities(), iso, Math.max(12800, iso));
+            starBoostIso = LiveViewValues.highestIso(m.getSupportedISOSensitivities(), iso);
             starSlowSupported = false;
             try {
                 starSlowSupported = m.isSupportedSlowShutterLiveviewMode();
@@ -551,27 +563,26 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
             }
             p = camera.getNormalCamera().getParameters();
             m = camera.createParametersModifier(p);
-            if (!starSlowSupported) {
-                starBoostIso = LiveViewValues.nearestIso(m.getSupportedISOSensitivities(), iso,
-                        Math.max(12800, iso));
-                m.setISOSensitivity(starBoostIso);
-                starIsoApplied = true;
-            }
-            List modes = null;
-            try { modes = m.getSupportedShootingPreviewModes(); } catch (Throwable unavailable) {}
-            String mode = starSlowSupported ? "off" : "iris_ss_iso";
-            if (starOriginalPreviewMode != null && modes != null && modes.contains(mode)) {
+            starBoostIso = LiveViewValues.highestIso(m.getSupportedISOSensitivities(), iso);
+            m.setISOSensitivity(starBoostIso);
+            starIsoApplied = true;
+            String mode = CameraEx.ParametersModifier.SHOOTING_PREVIEW_MODE_IRIS_SS_ISO;
+            if (starOriginalPreviewMode != null) try {
                 m.setShootingPreviewMode(mode); starPreviewModeApplied = true;
-            }
+            } catch (Throwable unavailable) { Logger.info("Timed BULB star preview unavailable: " + unavailable); }
             camera.getNormalCamera().setParameters(p);
             cameraParameters = camera.getNormalCamera().getParameters();
             parametersModifier = camera.createParametersModifier(cameraParameters);
+            if (parametersModifier.getISOSensitivity() != starBoostIso)
+                throw new IllegalStateException("Star ISO rejected");
+            if (starPreviewModeApplied && !mode.equals(parametersModifier.getShootingPreviewMode()))
+                throw new IllegalStateException("Star preview mode rejected");
             starEnhanced = true;
             displayMode = 0; nightMode = true;
             applyNightMode(); refresh();
             status.setText("STAR VIEW");
-            Logger.info("Timed BULB star enabled: " + (starSlowSupported ? "slow" : "ISO=" + starBoostIso)
-                    + "; captureISO=" + iso);
+            Logger.info("Timed BULB star enabled: slow=" + starSlowApplied + "; ISO=" + starBoostIso
+                    + "; preview=" + parametersModifier.getShootingPreviewMode() + "; captureISO=" + iso);
             return true;
         } catch (Throwable error) {
             Logger.error("Timed BULB star enable: " + error);

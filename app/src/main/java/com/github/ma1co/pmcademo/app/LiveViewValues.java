@@ -14,6 +14,15 @@ final class LiveViewValues {
         }
         return best;
     }
+    static int highestIso(List values, int current) {
+        int highest = current > 0 ? current : 1600;
+        if (values != null) for (Object item : values) {
+            if (!(item instanceof Integer)) continue;
+            int value = ((Integer)item).intValue();
+            if (value > highest) highest = value;
+        }
+        return highest;
+    }
     static int stepIso(List values, int current, int direction) {
         int next = current;
         if (values != null) for (Object item : values) {

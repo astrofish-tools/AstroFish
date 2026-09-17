@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 10
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        // Independent formal application. This preserves both the original
+        // A7R Astro intervalometer and the earlier Star View test package.
+        applicationId "com.yxy.astrofish"
+        minSdkVersion 10
+        targetSdkVersion 10
+        versionCode 100
+        versionName "1.0.0"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def apkName = "AstroFish-${output.baseName}-${variant.versionName}.apk"
+        output.outputFile = new File(output.outputFile.parent, apkName)
+    }
+}
+
+dependencies {
+    compile files('libs/framework.jar')
+    provided files('libs/stubs.jar')
+}

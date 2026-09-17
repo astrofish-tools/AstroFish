@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#061025"/><stop offset="1" stop-color="#142746"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="760" rx="24" fill="#080b11"/>
+  <text x="48" y="54" fill="#f2f5fa" font-family="Arial,sans-serif" font-size="30" font-weight="bold">AstroFish 1.0</text>
+  <text x="1152" y="52" text-anchor="end" fill="#8aa0bf" font-family="Arial,sans-serif" font-size="16">Sony α Camera App · by yxy</text>
+  <g transform="translate(42 80)">
+    <rect width="1116" height="410" rx="14" fill="url(#sky)" stroke="#34445f" stroke-width="2"/>
+    <g fill="#dcecff">
+      <circle cx="90" cy="66" r="2"/><circle cx="142" cy="114" r="1.7"/><circle cx="225" cy="48" r="2.4"/><circle cx="310" cy="92" r="1.8"/><circle cx="390" cy="52" r="1.6"/><circle cx="465" cy="132" r="2.5"/><circle cx="558" cy="70" r="1.6"/><circle cx="622" cy="112" r="2.2"/><circle cx="720" cy="44" r="2"/><circle cx="810" cy="96" r="1.5"/><circle cx="915" cy="62" r="2.4"/><circle cx="1030" cy="126" r="1.8"/>
+    </g>
+    <path d="M0 338 L120 276 L210 317 L320 236 L430 310 L548 226 L660 296 L770 212 L905 300 L1020 248 L1116 286 L1116 410 L0 410Z" fill="#05080d"/>
+    <text x="22" y="33" fill="#ffb14a" font-family="Arial,sans-serif" font-size="19" font-weight="bold" filter="url(#glow)">STAR VIEW</text>
+    <rect x="18" y="292" width="850" height="100" rx="9" fill="#000" fill-opacity=".68"/>
+    <text x="38" y="323" fill="#fff" font-family="Arial,sans-serif" font-size="22">[SS 15s]     F 2.8     ISO 1600</text>
+    <text x="38" y="351" fill="#d7dde8" font-family="Arial,sans-serif" font-size="18">SHOTS 20     DELAY 2s     INTERVAL 1s</text>
+    <text x="38" y="378" fill="#9bb2d0" font-family="Arial,sans-serif" font-size="15">C1 STAR/CLEAN · C2/AEL MAG · FN SELECT · PLAY REVIEW · MENU BULB</text>
+    <g transform="translate(905 290)">
+      <rect width="190" height="102" rx="8" fill="#05070b" fill-opacity=".84" stroke="#60728e"/>
+      <path d="M12 88 L18 86 L24 84 L30 80 L36 74 L42 66 L48 62 L54 69 L60 76 L66 81 L72 78 L78 67 L84 57 L90 52 L96 55 L102 65 L108 75 L114 82 L120 79 L126 67 L132 53 L138 42 L144 48 L150 60 L156 73 L162 81 L168 84 L176 86" fill="none" stroke="#e8edf5" stroke-width="2"/>
+      <line x1="174" y1="14" x2="174" y2="88" stroke="#ef4d4d" stroke-width="4"/>
+      <text x="10" y="20" fill="#a9bad2" font-family="Arial,sans-serif" font-size="13">LIVE HISTOGRAM</text>
+    </g>
+  </g>
+  <g font-family="Arial,sans-serif">
+    <g transform="translate(42 520)"><circle cx="22" cy="22" r="20" fill="#ff9b34"/><text x="22" y="29" text-anchor="middle" font-size="20" font-weight="bold">1</text><text x="54" y="17" fill="#f2f5fa" font-size="18" font-weight="bold">Live view / 实时取景</text><text x="54" y="40" fill="#9eacc0" font-size="15">Full-screen composition and manual focus</text></g>
+    <g transform="translate(410 520)"><circle cx="22" cy="22" r="20" fill="#ff9b34"/><text x="22" y="29" text-anchor="middle" font-size="20" font-weight="bold">2</text><text x="54" y="17" fill="#f2f5fa" font-size="18" font-weight="bold">Exposure controls / 曝光参数</text><text x="54" y="40" fill="#9eacc0" font-size="15">Shutter, aperture, ISO, sequence settings</text></g>
+    <g transform="translate(800 520)"><circle cx="22" cy="22" r="20" fill="#ff9b34"/><text x="22" y="29" text-anchor="middle" font-size="20" font-weight="bold">3</text><text x="54" y="17" fill="#f2f5fa" font-size="18" font-weight="bold">Histogram / 直方图</text><text x="54" y="40" fill="#9eacc0" font-size="15">Preview guidance; playback confirms the photo</text></g>
+    <rect x="42" y="603" width="1116" height="110" rx="12" fill="#111722" stroke="#26344a"/>
+    <text x="66" y="637" fill="#ffb14a" font-size="18" font-weight="bold">C1 view cycle / 视图循环</text>
+    <text x="66" y="671" fill="#e3e8ef" font-size="17">Normal + controls  →  Normal clean  →  Star View + controls  →  Star View clean  →  Normal + controls</text>
+    <text x="66" y="697" fill="#99a9be" font-size="15">纯净取景会隐藏参数、状态、对焦小地图和直方图；再次按 C1 继续循环。</text>
+  </g>
+</svg>
+

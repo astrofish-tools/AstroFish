@@ -1,0 +1,23 @@
+AstroFish 1.0.0 APK verification
+================================
+
+Identity
+- package: com.yxy.astrofish
+- versionCode: 100
+- versionName: 1.0.0
+- minSdk / targetSdk: 10 / 10
+- launch activity: com.github.ma1co.pmcademo.app.LiveViewActivity
+- label: AstroFish
+
+Signature
+- Verifies: PASS
+- APK Signature Scheme v1: PASS
+- APK Signature Scheme v2: PASS
+- Signers: 1
+- Certificate DN: CN=yxy, OU=AstroFish, O=yxy, L=Shanghai, C=CN
+- Certificate SHA-256: c733e59d3d476617bc1bbcc3bb52c2b16569db551e65c4f4ba53cd2c5554a8d3
+- Key algorithm / size: RSA / 2048 bits
+
+Upgrade and coexistence
+- Independent package from the original A7R Astro intervalometer.
+- Independent package from the earlier A7R Astro Live View test build.

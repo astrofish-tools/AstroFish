@@ -39,7 +39,7 @@ AstroFish uses an independent package and does not replace the original A7R Astr
 
 ## 支持范围 / Compatibility
 
-当前版本以第一代 Sony α7R（ILCE-7R）开发和验证。α7R II、α7S、α7S II 等 PlayMemories Camera Apps 机型可能具备运行条件，但需要分别验证 CameraEx、按键、镜头控制、Star View、直方图、回放与 BULB 行为。
+当前版本以第一代 Sony α7R（ILCE-7R）开发和验证，固件版本3.2。α7R II、α7S、α7S II 等 PlayMemories Camera Apps 机型可能具备运行条件，建议第一次测试时使用格式化的空卡，以防死机导致数据丢失。
 
 Version 1.0 was developed and verified on the first-generation Sony α7R (ILCE-7R). Other PlayMemories Camera Apps bodies may be capable of running it, but require separate physical verification.
 

@@ -20,7 +20,7 @@
 - 长曝光间隔拍摄 / Long-exposure interval sequences
 - 照片回放、1×/2×/4× 放大和照片直方图
 - Card playback with 1×/2×/4× zoom and photo histogram
-（当前 1.0.0 版本的 星光视图/Star View 功能还存在问题，不够亮，待更新）
+- (当前 1.0.0 版本的 星光视图/Star View 功能还存在问题，不够亮，待更新)
 
 ![AstroFish interface](docs/AstroFish-1.0.0-Interface.png)
 
